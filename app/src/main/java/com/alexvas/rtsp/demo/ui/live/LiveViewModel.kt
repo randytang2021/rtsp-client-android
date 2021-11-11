@@ -1,9 +1,9 @@
 package com.alexvas.rtsp.demo.ui.live
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
 
 private const val RTSP_REQUEST_KEY = "rtsp_request"
 private const val RTSP_USERNAME_KEY = "rtsp_username"
@@ -41,7 +41,7 @@ class LiveViewModel : ViewModel() {
 
     fun loadParams(context: Context?) {
         if (DEBUG)
-            Log.v(TAG, "loadParams()")
+            Timber.v("loadParams()")
         val pref = context?.getSharedPreferences(LIVE_PARAMS_FILENAME, Context.MODE_PRIVATE)
         try {
             rtspRequest.setValue(pref?.getString(RTSP_REQUEST_KEY, DEFAULT_RTSP_REQUEST))
@@ -61,8 +61,9 @@ class LiveViewModel : ViewModel() {
     }
 
     fun saveParams(context: Context?) {
-        if (DEBUG) Log.v(TAG, "saveParams()")
-        val editor = context?.getSharedPreferences(LIVE_PARAMS_FILENAME, Context.MODE_PRIVATE)?.edit()
+        if (DEBUG) Timber.tag(TAG).v("saveParams()")
+        val editor =
+            context?.getSharedPreferences(LIVE_PARAMS_FILENAME, Context.MODE_PRIVATE)?.edit()
         editor?.putString(RTSP_REQUEST_KEY, rtspRequest.value)
         editor?.putString(RTSP_USERNAME_KEY, rtspUsername.value)
         editor?.putString(RTSP_PASSWORD_KEY, rtspPassword.value)
